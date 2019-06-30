@@ -219,3 +219,30 @@ for infile in glob.glob(new_path):
     plt.subplot(224)
     plt.title("result")
     plt.imshow(result)
+rom moviepy.editor import VideoFileClip
+from IPython.display import HTML
+
+
+def process_image(image):
+    # NOTE: The output you return should be a color image (3 channel) for processing video below
+    # TODO: put your pipeline here,
+    # you should return the final output (image where lines are drawn on lanes)
+    
+    edges,masked_edges,result = line_detect(image)
+    
+    return result
+
+white_output = 'out/test_videos_output/solidWhiteRight.mp4'
+
+clip1 = VideoFileClip("data/test_videos/solidWhiteRight.mp4")
+white_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
+#%time 
+white_clip.write_videofile(white_output, audio=False)
+
+   
+
+HTML("""
+<video width="960" height="540" controls>
+  <source src="{0}">
+</video>
+""".format(white_output))    
